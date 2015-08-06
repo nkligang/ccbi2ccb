@@ -1,0 +1,1 @@
+for /f "delims=" %%i in ('dir /S /b "*.ccbi"') do ccbi2ccb.exe %%i

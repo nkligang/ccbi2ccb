@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>centeredOrigin</key>
+	<false/>
+	<key>currentResolution</key>
+	<integer>0</integer>
+	<key>currentSequenceId</key>
+	<integer>0</integer>
+	<key>fileType</key>
+	<string>CocosBuilder</string>
+	<key>fileVersion</key>
+	<integer>4</integer>
+	<key>guides</key>
+	<array/>
+	<key>jsControlled</key>
+	<false/>
+	<key>notes</key>
+	<array/>
+	<key>resolutions</key>
+	<array>
+		<dict>
+			<key>centeredOrigin</key>
+			<false/>
+			<key>ext</key>
+			<string>large</string>
+			<key>height</key>
+			<integer>800</integer>
+			<key>name</key>
+			<string>Android Large Landscape</string>
+			<key>scale</key>
+			<real>2</real>
+			<key>width</key>
+			<integer>1280</integer>
+		</dict>
+	</array>
+	<key>stageBorder</key>
+	<integer>3</integer>
+</dict>
+</plist>

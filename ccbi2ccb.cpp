@@ -861,6 +861,27 @@ bool readccbi(ccbiReader & ccbi, CCDictionary * pDict, CCDictionary * pTemplateD
     int numCallbackKeyframes = ccbi.readIntWithSign(false);
     CCDictionary * pCallbackChannelDict = new CCDictionary();
     CCArray * pCallbackKeyFrameArray = new CCArray();
+    for (int j = 0; j < numCallbackKeyframes; j++)
+    {
+      CCDictionary * pCallbackKeyframeDict = new CCDictionary();
+      CCDictionary * pCallbackKeyframeEasingDict = new CCDictionary();
+      pCallbackKeyframeEasingDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(0)));
+      pCallbackKeyframeDict->insert(std::pair<std::string, CCObject *>("easing", pCallbackKeyframeEasingDict));
+      float time = ccbi.readFloat();
+      pCallbackKeyframeDict->insert(std::pair<std::string, CCObject *>("time", new CCReal(time)));
+      std::string callbackName = ccbi.readCachedString();
+      CCArray * pCallbackKeyFrameValueArray = new CCArray();
+      pCallbackKeyFrameValueArray->push_back(new CCString(callbackName));
+      pCallbackKeyFrameValueArray->push_back(new CCInteger(1));
+      pCallbackKeyframeDict->insert(std::pair<std::string, CCObject *>("value", pCallbackKeyFrameValueArray));
+      int callbackType = ccbi.readIntWithSign(false);
+      int exportCallbackType = 0;
+      if (callbackType == 1) {
+        exportCallbackType = 10;
+      }
+      pCallbackKeyframeDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(exportCallbackType)));
+      pCallbackKeyFrameArray->push_back(pCallbackKeyframeDict);
+    }
     pCallbackChannelDict->insert(std::pair<std::string, CCObject *>("keyframes", pCallbackKeyFrameArray));
     pCallbackChannelDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(10)));
     pSequenceDict->insert(std::pair<std::string, CCObject *>("callbackChannel", pCallbackChannelDict));
@@ -871,11 +892,24 @@ bool readccbi(ccbiReader & ccbi, CCDictionary * pDict, CCDictionary * pTemplateD
     CCArray * pSoundKeyFrameArray = new CCArray();
     for (int j = 0; j < numSoundKeyframes; j++)
     {
+      CCDictionary * pSoundKeyframeDict = new CCDictionary();
+      CCDictionary * pSoundKeyframeEasingDict = new CCDictionary();
+      pSoundKeyframeEasingDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(0)));
+      pSoundKeyframeDict->insert(std::pair<std::string, CCObject *>("easing", pSoundKeyframeEasingDict));
       float time = ccbi.readFloat();
+      pSoundKeyframeDict->insert(std::pair<std::string, CCObject *>("time", new CCReal(time)));
+      pSoundKeyframeDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(9)));
+      CCArray * pSoundKeyFrameValueArray = new CCArray();
       std::string soundFile = ccbi.readCachedString();
+      pSoundKeyFrameValueArray->push_back(new CCString(soundFile));
       float pitch = ccbi.readFloat();
+      pSoundKeyFrameValueArray->push_back(new CCReal(pitch));
       float pan = ccbi.readFloat();
+      pSoundKeyFrameValueArray->push_back(new CCReal(pan));
       float gain = ccbi.readFloat();
+      pSoundKeyFrameValueArray->push_back(new CCReal(gain));
+      pSoundKeyframeDict->insert(std::pair<std::string, CCObject *>("value", pSoundKeyFrameValueArray));
+      pSoundKeyFrameArray->push_back(pSoundKeyframeDict);
     }
     pSoundChannelDict->insert(std::pair<std::string, CCObject *>("keyframes", pSoundKeyFrameArray));
     pSoundChannelDict->insert(std::pair<std::string, CCObject *>("type", new CCInteger(9)));
@@ -921,7 +955,7 @@ bool readccbi(ccbiReader & ccbi, CCDictionary * pDict, CCDictionary * pTemplateD
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-  std::string ccbiFile = "test.ccbi";
+  std::string ccbiFile = "PbHUD.ccbi";
   if (argc > 1) {
     ccbiFile = ConvertToAString(argv[1]);
   }
